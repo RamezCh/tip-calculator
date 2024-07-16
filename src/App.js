@@ -63,7 +63,14 @@ function SelectPercentage({ percentage, onSetPercentage, children }) {
 }
 
 function Output({ bill, percentage1, percentage2 }) {
-  return <h3>You pay X (${bill} + $B tip)</h3>;
+  const tip =
+    (Number(bill) * (Number(percentage1) + Number(percentage2))) / 200;
+  const total = Number(bill) + tip;
+  return (
+    <h3>
+      You pay ${total} (${bill} + ${tip} tip)
+    </h3>
+  );
 }
 
 function Reset() {
