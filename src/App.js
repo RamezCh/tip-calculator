@@ -20,7 +20,7 @@ function TipCalculator() {
 function BillInput() {
   return (
     <div>
-      <label>How much was the bill?</label>
+      <label>How much was the bill? </label>
       <input type="text" placeholder="Bill value" />
     </div>
   );
@@ -29,7 +29,7 @@ function BillInput() {
 function SelectPercentage({ children }) {
   return (
     <div>
-      {children}
+      <label>{children} </label>
       <select>
         <option value="0">Dissastisfied (0%)</option>
         <option value="5">It was okay (5%)</option>
@@ -40,6 +40,8 @@ function SelectPercentage({ children }) {
   );
 }
 
-function Output() {}
+function Output() {
+  return <h3>You pay X ($A + $B tip)</h3>;
+}
 
 function Reset() {}
