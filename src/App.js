@@ -9,24 +9,29 @@ function TipCalculator() {
   const [bill, setBill] = useState(0);
   const [percentage1, setPercentage1] = useState(0);
   const [percentage2, setPercentage2] = useState(0);
+  const tip = bill * ((percentage1 + percentage2) / 200);
+
+  function handleReset() {
+    setBill(0);
+    setPercentage1(0);
+    setPercentage2(0);
+  }
 
   return (
     <>
       <BillInput bill={bill} onSetBill={setBill} />
-      <SelectPercentage
-        percentage={percentage1}
-        onSetPercentage={setPercentage1}
-      >
+      <SelectPercentage percentage={percentage1} onSelect={setPercentage1}>
         How did you like the Service?
       </SelectPercentage>
-      <SelectPercentage
-        percentage={percentage2}
-        onSetPercentage={setPercentage2}
-      >
+      <SelectPercentage percentage={percentage2} onSelect={setPercentage2}>
         How did your friend like the Service?
       </SelectPercentage>
-      <Output bill={bill} percentage1={percentage1} percentage2={percentage2} />
-      <Reset />
+      {bill > 0 && (
+        <>
+          <Output bill={bill} tip={tip} />
+          <Reset onReset={handleReset} />
+        </>
+      )}
     </>
   );
 }
@@ -45,14 +50,11 @@ function BillInput({ bill, onSetBill }) {
   );
 }
 
-function SelectPercentage({ percentage, onSetPercentage, children }) {
+function SelectPercentage({ percentage, onSelect, children }) {
   return (
     <div>
       <label>{children} </label>
-      <select
-        value={percentage}
-        onChange={e => onSetPercentage(e.target.value)}
-      >
+      <select value={percentage} onChange={e => onSelect(e.target.value)}>
         <option value="0">Dissastisfied (0%)</option>
         <option value="5">It was okay (5%)</option>
         <option value="10">It was good (10%)</option>
@@ -62,17 +64,14 @@ function SelectPercentage({ percentage, onSetPercentage, children }) {
   );
 }
 
-function Output({ bill, percentage1, percentage2 }) {
-  const tip =
-    (Number(bill) * (Number(percentage1) + Number(percentage2))) / 200;
-  const total = Number(bill) + tip;
+function Output({ bill, tip }) {
   return (
     <h3>
-      You pay ${total} (${bill} + ${tip} tip)
+      You pay ${bill + tip} (${bill} + ${tip} tip)
     </h3>
   );
 }
 
-function Reset() {
-  return <button>Reset</button>;
+function Reset({ onReset }) {
+  return <button onClick={onReset}>Reset</button>;
 }
