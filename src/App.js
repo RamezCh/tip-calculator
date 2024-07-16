@@ -6,9 +6,11 @@ export default function App() {
 }
 
 function TipCalculator() {
+  const [bill, setBill] = useState(0);
+
   return (
     <>
-      <BillInput />
+      <BillInput bill={bill} onSetBill={setBill} />
       <SelectPercentage>How did you like the Service?</SelectPercentage>
       <SelectPercentage>How did your friend like the Service?</SelectPercentage>
       <Output />
@@ -17,11 +19,16 @@ function TipCalculator() {
   );
 }
 
-function BillInput() {
+function BillInput({ bill, onSetBill }) {
   return (
     <div>
       <label>How much was the bill? </label>
-      <input type="text" placeholder="Bill value" />
+      <input
+        type="text"
+        placeholder="Bill value"
+        value={bill}
+        onChange={e => onSetBill(e.target.value)}
+      />
     </div>
   );
 }
